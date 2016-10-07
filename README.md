@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ftc_app
 FTC Android Studio project to create FTC Robot Controller app.
 
@@ -268,3 +269,10 @@ In this latest version of the FTC SDK (20150803_001) the following changes shoul
 
 T. Eng
 August 3, 2015
+=======
+# freshftc
+	Welcome!
+	
+This is the freshman repository where all the code and final produts will be stored. 
+This will be mostly empty for sometime, but soon it will be MUCH nicer!
+>>>>>>> 7eec4c6d1df7888e551ac6e4a1d87c6664a82cb2

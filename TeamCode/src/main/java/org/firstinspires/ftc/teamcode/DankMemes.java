@@ -40,6 +40,13 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+/*
+TO DO:
+1 ) Finish Basic Work | TEST TEST TEST
+2 ) Figure Out Purpose of DcMotorController
+ */
+
+
 @TeleOp(name="Template: Iterative OpMode", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 public class DankMemes extends OpMode
 {
@@ -48,6 +55,8 @@ public class DankMemes extends OpMode
     private DcMotor leftMotor = null;
     private DcMotor rightMotor = null;
     private DcMotor clawMotor = null;
+    private DcMotor clawGrabberL = null;
+    private DcMotor clawGrabberR = null;
 
     @Override
     public void init() {
@@ -55,30 +64,38 @@ public class DankMemes extends OpMode
         rightMotor = hardwareMap.dcMotor.get("drive_right");
         leftMotor = hardwareMap.dcMotor.get("drive_left");
         clawMotor = hardwareMap.dcMotor.get("drive_claw");
-
+        clawGrabberL = hardwareMap.dcMotor.get("drive_grabberl");
+        clawGrabberR = hardwareMap.dcMotor.get("drive_grabberr");
     }
 
     @Override
     public void loop() {
         // TELEMTRY
+
+        // REMOVE LATER WHEN APP = WORKING 100000%
         telemetry.update();
-        telemetry.addData("Gamepad 1 Right", "X: " + gamepad1.right_stick_x + " | Y: " + gamepad1.right_stick_y);
-        telemetry.addData("Gamepad 1 Left", "X: " + gamepad1.left_stick_x + " | Y: " + gamepad1.left_stick_y);
+        telemetry.addData("Gamepad 1 Right Stick", "X: " + gamepad1.right_stick_x + " | Y: " + gamepad1.right_stick_y);
+        telemetry.addData("Gamepad 1 Left Stick", "X: " + gamepad1.left_stick_x + " | Y: " + gamepad1.left_stick_y);
+        telemetry.addData("Gamepad 1 Right Trigger", gamepad1.right_trigger);
+        telemetry.addData("Gamepad 1 Left Trigger", gamepad1.left_trigger);
         telemetry.addData("Gamepad 2 Right", "X: " + gamepad2.right_stick_x + " | Y: " + gamepad2.right_stick_y);
         telemetry.addData("Gamepad 2 Left", "X: " + gamepad2.left_stick_x + " | Y: " + gamepad2.left_stick_y);
+        telemetry.addData("Gamepad 2 Right Trigger", gamepad2.right_trigger);
+        telemetry.addData("Gamepad 2 Left Trigger", gamepad2.left_trigger);
         // DONE TELEMTRY
 
         // GAMEPAD CHECKS
-        double rp = gamepad1.right_stick_y;
-        double lp = gamepad1.left_stick_y;
+        double rightPower = gamepad1.right_stick_y;
+        double leftPower = gamepad1.left_stick_y;
+
 
         // INVERSE Y
-        rp = -rp;
-        lp = -lp;
+        rightPower = -rightPower;
+        leftPower = -leftPower;
 
         // SET POWER
-        rightMotor.setPower(rp);
-        leftMotor.setPower(lp);
+        rightMotor.setPower(rightPower);
+        leftMotor.setPower(leftPower);
         // DONE GAMEPAD CHECKS
     }
 }
