@@ -30,6 +30,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -40,22 +41,15 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-/*
-TO DO:
-1 ) Finish Basic Work | TEST TEST TEST
-2 ) Figure Out Purpose of DcMotorController
- */
-
-
-@TeleOp(name="Ken Bone", group="Iterative Opmode")
+@TeleOp(name="LOL", group="DANKMEMES.JAVA")  // @Autonomous(...) is the other common choice
 public class DankMemes extends OpMode
 {
 
-    private DcMotor leftMotor = null;
-    private DcMotor rightMotor = null;
-    private DcMotor clawMotor = null;
-    private DcMotor clawGrabberL = null;
-    private DcMotor clawGrabberR = null;
+    private DcMotor leftMotor;
+    private DcMotor rightMotor;
+    private DcMotor clawMotor;
+    private DcMotor clawGrabberL;
+    private DcMotor clawGrabberR;
 
     @Override
     public void init() {
@@ -80,10 +74,30 @@ public class DankMemes extends OpMode
         telemetry.addData("Gamepad 2 Left Stick", "X: " + gamepad2.left_stick_x + " | Y: " + gamepad2.left_stick_y);
         telemetry.addData("Gamepad 2 Right Trigger", gamepad2.right_trigger);
         telemetry.addData("Gamepad 2 Left Trigger", gamepad2.left_trigger);
+
         // DONE TELEMTRY
 
-        rightMotor.setPower(rightPower);
-        leftMotor.setPower(leftPower);
+        // CHECK FOR FULL STOP COMMAND
+        while(gamepad1.x){
+            rightMotor.setPower(0);
+            leftMotor.setPower(0);
+            clawMotor.setPower(0);
+            clawGrabberR.setPower(0);
+            clawGrabberL.setPower(0);
+
+        }
+
+        // SET POWER FOR WHEELS
+        rightMotor.setPower(-gamepad1.right_stick_y);
+        leftMotor.setPower(-gamepad1.left_stick_y);
+
+        // SET POWER FOR CLAW MOVEMENT
+        clawMotor.setPower(gamepad1.right_trigger);
+
+        // SET POWER FOR CLAW GRABBING
+        clawGrabberR.setPower(gamepad1.right_trigger);
+        clawGrabberL.setPower(gamepad1.left_trigger);
+
         // DONE GAMEPAD CHECKS
     }
 }
