@@ -47,11 +47,10 @@ TO DO:
  */
 
 
-@TeleOp(name="Template: Iterative OpMode", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
+@TeleOp(name="Ken Bone", group="Iterative Opmode")
 public class DankMemes extends OpMode
 {
 
-    private DcMotorController MAIN;
     private DcMotor leftMotor = null;
     private DcMotor rightMotor = null;
     private DcMotor clawMotor = null;
@@ -60,7 +59,6 @@ public class DankMemes extends OpMode
 
     @Override
     public void init() {
-        MAIN = hardwareMap.dcMotorController.get("drive_controller");
         rightMotor = hardwareMap.dcMotor.get("drive_right");
         leftMotor = hardwareMap.dcMotor.get("drive_left");
         clawMotor = hardwareMap.dcMotor.get("drive_claw");
@@ -78,22 +76,12 @@ public class DankMemes extends OpMode
         telemetry.addData("Gamepad 1 Left Stick", "X: " + gamepad1.left_stick_x + " | Y: " + gamepad1.left_stick_y);
         telemetry.addData("Gamepad 1 Right Trigger", gamepad1.right_trigger);
         telemetry.addData("Gamepad 1 Left Trigger", gamepad1.left_trigger);
-        telemetry.addData("Gamepad 2 Right", "X: " + gamepad2.right_stick_x + " | Y: " + gamepad2.right_stick_y);
-        telemetry.addData("Gamepad 2 Left", "X: " + gamepad2.left_stick_x + " | Y: " + gamepad2.left_stick_y);
+        telemetry.addData("Gamepad 2 Right Stick", "X: " + gamepad2.right_stick_x + " | Y: " + gamepad2.right_stick_y);
+        telemetry.addData("Gamepad 2 Left Stick", "X: " + gamepad2.left_stick_x + " | Y: " + gamepad2.left_stick_y);
         telemetry.addData("Gamepad 2 Right Trigger", gamepad2.right_trigger);
         telemetry.addData("Gamepad 2 Left Trigger", gamepad2.left_trigger);
         // DONE TELEMTRY
 
-        // GAMEPAD CHECKS
-        double rightPower = gamepad1.right_stick_y;
-        double leftPower = gamepad1.left_stick_y;
-
-
-        // INVERSE Y
-        rightPower = -rightPower;
-        leftPower = -leftPower;
-
-        // SET POWER
         rightMotor.setPower(rightPower);
         leftMotor.setPower(leftPower);
         // DONE GAMEPAD CHECKS
