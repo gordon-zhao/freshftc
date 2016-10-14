@@ -38,12 +38,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@TeleOp(name="Main", group="TeleOp")  // @Autonomous(...) is the other common choice
+@TeleOp(name="Pepe V2", group="TeleOp")  // @Autonomous(...) is the other common choice
 public class DankMemes extends OpMode
 {
 
-    private DcMotor leftMotor;
+    private int ServoPos = 50;
     private DcMotor rightMotor;
+    private DcMotor leftMotor;
     private DcMotor clawMotor;
     private Servo clawGrabberL;
     private Servo clawGrabberR;
@@ -79,19 +80,24 @@ public class DankMemes extends OpMode
             leftMotor.setPower(0);
             clawMotor.setPower(0);
             clawGrabberR.setPosition(50);
-            clawGrabberL.setPosition(-50);
+            clawGrabberL.setPosition(50);
         }
 
         // SET POWER FOR WHEELS
-        rightMotor.setPower(-gamepad1.right_stick_y);
+        rightMotor.setPower(gamepad1.right_stick_y);
         leftMotor.setPower(-gamepad1.left_stick_y);
 
         // SET POWER FOR CLAW MOVEMENT
-        //clawMotor.setPower(gamepad1.right_trigger);
+        clawMotor.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
 
         // CLAW GRABBING
-        clawGrabberR.setPosition(25);
-        clawGrabberL.setPosition(-25);
+        if(gamepad1.right_bumper){
+            ServoPos--;
+        }else if(gamepad1.left_bumper){
+            ServoPos++;
+        }
+        clawGrabberR.setPosition(ServoPos);
+        clawGrabberL.setPosition(ServoPos);
 
         // DONE GAMEPAD CHECKS
     }
