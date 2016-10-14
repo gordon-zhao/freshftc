@@ -33,38 +33,34 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@TeleOp(name="LOL", group="DANKMEMES.JAVA")  // @Autonomous(...) is the other common choice
+@TeleOp(name="Main", group="TeleOp")  // @Autonomous(...) is the other common choice
 public class DankMemes extends OpMode
 {
 
     private DcMotor leftMotor;
     private DcMotor rightMotor;
     private DcMotor clawMotor;
-    private DcMotor clawGrabberL;
-    private DcMotor clawGrabberR;
+    private Servo clawGrabberL;
+    private Servo clawGrabberR;
 
     @Override
     public void init() {
         rightMotor = hardwareMap.dcMotor.get("drive_right");
         leftMotor = hardwareMap.dcMotor.get("drive_left");
         clawMotor = hardwareMap.dcMotor.get("drive_claw");
-        clawGrabberL = hardwareMap.dcMotor.get("drive_grabberl");
-        clawGrabberR = hardwareMap.dcMotor.get("drive_grabberr");
+        clawGrabberL = hardwareMap.servo.get("drive_grabberl");
+        clawGrabberR = hardwareMap.servo.get("drive_grabberr");
     }
 
     @Override
     public void loop() {
         // TELEMTRY
 
-        // REMOVE LATER WHEN APP = WORKING 100000%
         telemetry.update();
         telemetry.addData("Gamepad 1 Right Stick", "X: " + gamepad1.right_stick_x + " | Y: " + gamepad1.right_stick_y);
         telemetry.addData("Gamepad 1 Left Stick", "X: " + gamepad1.left_stick_x + " | Y: " + gamepad1.left_stick_y);
@@ -82,9 +78,8 @@ public class DankMemes extends OpMode
             rightMotor.setPower(0);
             leftMotor.setPower(0);
             clawMotor.setPower(0);
-            clawGrabberR.setPower(0);
-            clawGrabberL.setPower(0);
-
+            clawGrabberR.setPosition(50);
+            clawGrabberL.setPosition(-50);
         }
 
         // SET POWER FOR WHEELS
@@ -92,11 +87,11 @@ public class DankMemes extends OpMode
         leftMotor.setPower(-gamepad1.left_stick_y);
 
         // SET POWER FOR CLAW MOVEMENT
-        clawMotor.setPower(gamepad1.right_trigger);
+        //clawMotor.setPower(gamepad1.right_trigger);
 
-        // SET POWER FOR CLAW GRABBING
-        clawGrabberR.setPower(gamepad1.right_trigger);
-        clawGrabberL.setPower(gamepad1.left_trigger);
+        // CLAW GRABBING
+        clawGrabberR.setPosition(25);
+        clawGrabberL.setPosition(-25);
 
         // DONE GAMEPAD CHECKS
     }
