@@ -38,10 +38,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@TeleOp(name="Main|Version - 0.01", group="TeleOp")  // @Autonomous(...) is the other common choice
+@TeleOp(name="Pepe V2", group="TeleOp")  // @Autonomous(...) is the other common choice
 public class DankMemes extends OpMode
 {
 
+    private int ServoPos = 50;
     private DcMotor rightMotor;
     private DcMotor leftMotor;
     private DcMotor clawMotor;
@@ -62,29 +63,41 @@ public class DankMemes extends OpMode
         // TELEMTRY
 
         telemetry.update();
-        telemetry.addData("DC Motor : Right Motor", rightMotor.getMaxSpeed());
-        telemetry.addData("DC Motor : Left Motor", leftMotor.getMaxSpeed());
-        telemetry.addData("DC Motor : Arm Motor", clawMotor.getMaxSpeed());
-        telemetry.addData("Servo : Right Claw", clawGrabberR.getPosition());
-        telemetry.addData("Servo : Left Claw", clawGrabberL.getPosition());
+        telemetry.addData("Gamepad 1 Right Stick", "X: " + gamepad1.right_stick_x + " | Y: " + gamepad1.right_stick_y);
+        telemetry.addData("Gamepad 1 Left Stick", "X: " + gamepad1.left_stick_x + " | Y: " + gamepad1.left_stick_y);
+        telemetry.addData("Gamepad 1 Right Trigger", gamepad1.right_trigger);
+        telemetry.addData("Gamepad 1 Left Trigger", gamepad1.left_trigger);
+        telemetry.addData("Gamepad 2 Right Stick", "X: " + gamepad2.right_stick_x + " | Y: " + gamepad2.right_stick_y);
+        telemetry.addData("Gamepad 2 Left Stick", "X: " + gamepad2.left_stick_x + " | Y: " + gamepad2.left_stick_y);
+        telemetry.addData("Gamepad 2 Right Trigger", gamepad2.right_trigger);
+        telemetry.addData("Gamepad 2 Left Trigger", gamepad2.left_trigger);
 
         // DONE TELEMTRY
 
-        // SET POWER FOR WHEELS - WORKING
+        // CHECK FOR FULL STOP COMMAND
+        while(gamepad1.x){
+            rightMotor.setPower(0);
+            leftMotor.setPower(0);
+            clawMotor.setPower(0);
+            clawGrabberR.setPosition(50);
+            clawGrabberL.setPosition(50);
+        }
+
+        // SET POWER FOR WHEELS
         rightMotor.setPower(gamepad1.right_stick_y);
         leftMotor.setPower(-gamepad1.left_stick_y);
 
-        // SET POWER FOR CLAW MOVEMENT - WORKING
+        // SET POWER FOR CLAW MOVEMENT
         clawMotor.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
 
-        // CLAW GRABBING - NEEDS HELP - THIS FIX SHOULD WORK
+        // CLAW GRABBING
         if(gamepad1.right_bumper){
-            clawGrabberR.setPosition(clawGrabberR.getPosition()+0.1);
-            clawGrabberL.setPosition(clawGrabberL.getPosition()+0.1);
+            ServoPos--;
         }else if(gamepad1.left_bumper){
-            clawGrabberR.setPosition(clawGrabberR.getPosition()-0.1);
-            clawGrabberL.setPosition(clawGrabberL.getPosition()-0.1);
+            ServoPos++;
         }
+        clawGrabberR.setPosition(ServoPos);
+        clawGrabberL.setPosition(ServoPos);
 
         // DONE GAMEPAD CHECKS
     }
